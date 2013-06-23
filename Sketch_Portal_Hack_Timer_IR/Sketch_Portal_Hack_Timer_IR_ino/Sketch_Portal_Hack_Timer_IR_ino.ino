@@ -40,6 +40,7 @@ void loop()
     if (millis() - last > 250) {
       on = !on;
           digitalWrite(LedR1, HIGH);
+          digitalWrite(LedG, LOW);
           delay(60000);
           digitalWrite(LedR2, HIGH);
           delay(60000);
@@ -55,6 +56,13 @@ void loop()
           digitalWrite(LedR4, LOW);
           digitalWrite(LedM, LOW);
           digitalWrite(LedG, HIGH);
+          delay(10000);
+          digitalWrite(LedR1, LOW);
+          digitalWrite(LedR2, LOW);
+          digitalWrite(LedR3, LOW);
+          digitalWrite(LedR4, LOW);
+          digitalWrite(LedM, LOW);
+          digitalWrite(LedG, LOW);
         } else {
           lightMode == 0;               // light is off!
           digitalWrite(LedR1, LOW);
