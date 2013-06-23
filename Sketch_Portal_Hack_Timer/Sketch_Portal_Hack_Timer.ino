@@ -1,10 +1,10 @@
-int LedR1 = 02;
-int LedR2 = 03;
-int LedR3 = 04;
-int LedR4 = 05;
-int LedM = 06;
-int LedG = 07;
-int Button = 12;
+int LedR1 = 02;                 //Led Red 1
+int LedR2 = 03;                 //Led Red 2
+int LedR3 = 04;                 //Led Red 3
+int LedR4 = 05;                 //Led Red 4
+int LedM = 06;                  //Led Multi
+int LedG = 07;                  //Led Green
+int Button = 12;                // Button
 int val;                        // variable for reading the pin status
 int buttonState;                // variable to hold the button state
 int lightMode = 0;              // Is the light on or off?
