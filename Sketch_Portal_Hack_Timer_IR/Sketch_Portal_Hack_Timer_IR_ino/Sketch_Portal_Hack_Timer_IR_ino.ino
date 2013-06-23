@@ -40,14 +40,24 @@ void loop()
     if (millis() - last > 250) {
       on = !on;
           digitalWrite(LedR1, HIGH);
+          digitalWrite(LedR2, HIGH);
+          digitalWrite(LedR3, HIGH);
+          digitalWrite(LedR4, HIGH);
           digitalWrite(LedG, LOW);
           delay(60000);
+          digitalWrite(LedR1, LOW);
           digitalWrite(LedR2, HIGH);
-          delay(60000);
           digitalWrite(LedR3, HIGH);
+          digitalWrite(LedR4, HIGH);
           delay(60000);
+          digitalWrite(LedR2, LOW);
+          digitalWrite(LedR3, HIGH);
+          digitalWrite(LedR4, HIGH);
+          delay(60000);
+          digitalWrite(LedR3, LOW);
           digitalWrite(LedR4, HIGH);
           delay(110000);
+          digitalWrite(LedR4, LOW);
           digitalWrite(LedM, HIGH);
           delay(10000);
           digitalWrite(LedR1, LOW);
