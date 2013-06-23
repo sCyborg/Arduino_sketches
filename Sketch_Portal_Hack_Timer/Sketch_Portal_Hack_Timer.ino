@@ -40,14 +40,14 @@ void loop()
           digitalWrite(LedR3, HIGH);
           delay(60000);
           digitalWrite(LedR4, HIGH);
-          delay(60000);
+          delay(110000);
+          digitalWrite(LedM, HIGH);
+          delay(10000);
           digitalWrite(LedR1, LOW);
           digitalWrite(LedR2, LOW);
           digitalWrite(LedR3, LOW);
           digitalWrite(LedR4, LOW);
-          digitalWrite(LedM, HIGH);
-          delay(60000);
-          digitalWrite(LedM,LOW);
+          digitalWrite(LedM, LOW);
           digitalWrite(LedG, HIGH);
         } else {
           lightMode = 0;               // light is off!
