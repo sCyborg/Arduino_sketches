@@ -44,19 +44,19 @@ void loop()
           digitalWrite(LedR3, HIGH);
           digitalWrite(LedR4, HIGH);
           digitalWrite(LedG, LOW);
-          delay(60000);
+          delay(75000);
           digitalWrite(LedR1, LOW);
           digitalWrite(LedR2, HIGH);
           digitalWrite(LedR3, HIGH);
           digitalWrite(LedR4, HIGH);
-          delay(60000);
+          delay(75000);
           digitalWrite(LedR2, LOW);
           digitalWrite(LedR3, HIGH);
           digitalWrite(LedR4, HIGH);
-          delay(60000);
+          delay(75000);
           digitalWrite(LedR3, LOW);
           digitalWrite(LedR4, HIGH);
-          delay(110000);
+          delay(65000);
           digitalWrite(LedR4, LOW);
           digitalWrite(LedM, HIGH);
           delay(10000);
@@ -66,7 +66,7 @@ void loop()
           digitalWrite(LedR4, LOW);
           digitalWrite(LedM, LOW);
           digitalWrite(LedG, HIGH);
-          delay(10000);
+          delay(120000);
           digitalWrite(LedR1, LOW);
           digitalWrite(LedR2, LOW);
           digitalWrite(LedR3, LOW);
@@ -127,7 +127,7 @@ void loop()
     }
     buttonState = val;                 // save the new state in our v
 }
-    }
+}
 
 
 
