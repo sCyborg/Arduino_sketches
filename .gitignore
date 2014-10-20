@@ -213,3 +213,33 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+backSoon/backSoon.ino
+BlinkcoloredledsHello/BlinkcoloredledsHello.ino
+Blink_Hello_World/Blink_Hello_World.ino
+Computer_Case_Light_Mod_V0_01/Computer_Case_Light_Mod_V0_01.ino
+Computer_Case_Light_Mod_V0_01/LightMODcpuload.jpg
+Computer_Case_Light_Mod_V0_01/LightMODcpuramloadgpuhot.jpg
+Computer_Case_Light_Mod_V0_01/LightMODgpuload.jpg
+Computer_Case_Light_Mod_V0_01/LightMODIdle.jpg
+Computer_Case_Light_Mod_V0_01/LightMODoptionallight.jpg
+*.jpg
+*.fzz
+DS18S20/DS18S20.ino
+RelayTempSwitch/RelayTempSwitch.ino
+RelayCheck/RelayCheck.ino
+Online_Humidity_Light/Online_Humidity_Light.ino
+Online_Humidity/Online_Humidity.ino
+Multiple32/Multiple32.ino
+Multiple3/Multiple3.ino
+MultiPageHtml_Digital_Analog_weatherstation/MultiPageHtml_Digital_Analog_weatherstation.ino
+webpage/webpage.ino
+sketch_WeatherFramework/sketch_WeatherFramework.ino
+Webserver__DHT11/Webserver__DHT11.ino
+sketch_jun15a/sketch_jun19a/sketch_jun19a.ino
+sketch_jun15a/sketch_jun15a.ino
+SimpleWebServerAnalogSensors/SimpleWebServerAnalogSensors.ino
+simplewebpage/simplewebpage.ino
+MultiPageHtml_Digital_Analog/MultiPageHtml_Digital_Analog.ino
+MultiPageHtml_3/MultiPageHtml_3.ino
+mcp23016_base_ouput/mcp23016_base_ouput.ino
+mcp23016_16_lights_sketch/mcp23016_16_lights_sketch.ino
