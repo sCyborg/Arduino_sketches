@@ -52,8 +52,8 @@ int lightPin = A0;
 //Rainsensor
 int sensorRReading = A1;
 
-int t=0;
-int h=0;
+int td=0;
+int hd=0;
 int Timer= 0;
 int p=0;
 int bt=0;
@@ -89,8 +89,8 @@ void setup () {
 //  Here we get values from the DHT11
 static void ReadDHT11()
 {
-  h = dht.readHumidity();
-  t = dht.readTemperature();
+  hd = dht.readHumidity();
+  td = dht.readTemperature();
 }
 float printTemperature(DeviceAddress deviceAddress)
 {
@@ -109,6 +109,10 @@ static word homePage() {
   //p = bmp.getPressure();
   //bt = bmp.getTemperature();
   //ReadDHT11();
+ long t = millis() / 1000;
+ word h = t / 3600;
+ byte m = (t / 60) % 60;
+ byte s = t % 60;  
   sensors.requestTemperatures();
   sensors.getTempCByIndex(0);
   word sensorValue = analogRead(lightPin);
@@ -119,10 +123,12 @@ static word homePage() {
     "Content-Type: text/html\r\n"
     "Pragma: no-cache\r\n"
     "\r\n"
-    "<meta http-equiv='refresh' content='2'/>"
-    "<title>Real-time Weather</title>" 
-    "<h1>Temp: $D C <br>Humidity: $D % <br>Light: $D <br>Temp2: $T C <br> Rain(High is dry, Low is wet.): $D !</h1>"
-    ), t , h, sensorValue , printTemperature(insideThermometer), sensorRValue);
+    "<meta http-equiv='refresh' content='10'/>"
+    "<html><head><title>Real-time Weather</title></head>" 
+    "<body align= 'center' bgcolor='#FFF8DC'>"
+    "<h1>Temp: $D C <br>Humidity: $D % <br>Light: $D <br>Temp2: $T C <br> Rain: $D ! </h1><h2>Uptime: $D$D:$D$D:$D$D (hh:mm:ss)</h2><h3>For rain High (680) is dry, Low is wet.</3>"
+    "</body></html>"
+    ), td , hd, sensorValue , printTemperature(insideThermometer), sensorRValue, h/10, h%10, m/10, m%10, s/10, s%10);
   return bfill.position();
 }
 void loop () {
