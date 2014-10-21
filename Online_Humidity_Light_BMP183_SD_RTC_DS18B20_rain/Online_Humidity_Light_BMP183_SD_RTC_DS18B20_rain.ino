@@ -19,7 +19,7 @@
 #define BMP183_SDO  45  // AKA MISO
 #define BMP183_SDI  46  // AKA MOSI
 #define BMP183_CS   47  // cslave
-#define ONE_WIRE_BUS 3 
+#define ONE_WIRE_BUS 3  // DS18B20
 
 //DEFINITIONS
 #define STATIC 0  // set to 1 to disable DHCP (adjust myip/gwip values below)
