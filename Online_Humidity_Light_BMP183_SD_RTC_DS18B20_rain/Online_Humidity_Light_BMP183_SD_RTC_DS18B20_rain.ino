@@ -57,8 +57,6 @@ int hd=0;                   // Humidity DHT11
 int Timer= 0;
 int p=0;                    // Pressure BMP183
 int bt=0;                   // Temperature BMP183  
-int t2=0;
-int t3=0;
 
 DeviceAddress insideThermometer = { 0x28, 0xFA, 0xFE, 0xDB, 0x04, 0x00, 0x00, 0xAC  };
 
