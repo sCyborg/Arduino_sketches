@@ -1,4 +1,4 @@
-// This is a demo of the RBBB running as webserver with the Ether Card
+// This is based on a demo of the RBBB running as webserver with the Ether Card
 // 2010-05-28 <jc@wippler.nl> http://opensource.org/licenses/mit-license.php
 
 //LIBARYS
@@ -48,15 +48,15 @@ BufferFiller bfill;
 // t is the temperature, h is the humidity
 // Timer is used to reduce the frequency of reading the DHT11 - I found reading it every loop
 // caused timing issues with the Ethernet.
-int lightPin = A0;
+int lightPin = A0;   // Lightsensor at analog 1
 //Rainsensor
-int sensorRReading = A1;
+int sensorRReading = A1;    // Rain sensor at analog 2
 
-int td=0;
-int hd=0;
+int td=0;                   // Temp DHT11
+int hd=0;                   // Humidity DHT11
 int Timer= 0;
-int p=0;
-int bt=0;
+int p=0;                    // Pressure BMP183
+int bt=0;                   // Temperature BMP183  
 int t2=0;
 int t3=0;
 
@@ -126,9 +126,9 @@ static word homePage() {
     "<meta http-equiv='refresh' content='10'/>"
     "<html><head><title>Real-time Weather-Station</title></head>" 
     "<body align= 'center' bgcolor='#FFF8DC'>"
-    "<h1>Temp: $D C <br>Humidity: $D % <br>Light: $D <br>Temp2: $T C <br> Rain: $D</h1><h2>Uptime: $D$D:$D$D:$D$D (hh:mm:ss)</h2><h3>For rain sensor the folowing counts: <br> High (680) = Dry<br> Low = Wet.</h3>"
+    "<h1>Temp: $D C <br>Temp2: $T C <br>Humidity: $D % <br>Light: $D <br> Rain: $D</h1><h2>Uptime: $D$D:$D$D:$D$D (hh:mm:ss)</h2><h3>For rain sensor the folowing counts: <br> High (680) = Dry<br> Low = Wet.</h3>"
     "</body></html>"
-    ), td , hd, sensorValue , printTemperature(insideThermometer), sensorRValue, h/10, h%10, m/10, m%10, s/10, s%10);
+    ), td ,printTemperature(insideThermometer), hd, sensorValue ,  sensorRValue, h/10, h%10, m/10, m%10, s/10, s%10);
   return bfill.position();
 }
 void loop () {
