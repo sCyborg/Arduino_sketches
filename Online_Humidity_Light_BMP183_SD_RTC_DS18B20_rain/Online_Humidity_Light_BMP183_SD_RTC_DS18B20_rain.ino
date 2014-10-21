@@ -124,9 +124,9 @@ static word homePage() {
     "Pragma: no-cache\r\n"
     "\r\n"
     "<meta http-equiv='refresh' content='10'/>"
-    "<html><head><title>Real-time Weather</title></head>" 
+    "<html><head><title>Real-time Weather-Station</title></head>" 
     "<body align= 'center' bgcolor='#FFF8DC'>"
-    "<h1>Temp: $D C <br>Humidity: $D % <br>Light: $D <br>Temp2: $T C <br> Rain: $D ! </h1><h2>Uptime: $D$D:$D$D:$D$D (hh:mm:ss)</h2><h3>For rain High (680) is dry, Low is wet.</3>"
+    "<h1>Temp: $D C <br>Humidity: $D % <br>Light: $D <br>Temp2: $T C <br> Rain: $D</h1><h2>Uptime: $D$D:$D$D:$D$D (hh:mm:ss)</h2><h3>For rain sensor the folowing counts: <br> High (680) = Dry<br> Low = Wet.</h3>"
     "</body></html>"
     ), td , hd, sensorValue , printTemperature(insideThermometer), sensorRValue, h/10, h%10, m/10, m%10, s/10, s%10);
   return bfill.position();
