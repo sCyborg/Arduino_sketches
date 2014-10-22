@@ -66,7 +66,7 @@ DeviceAddress outsideThermometer = { 0x28, 0xE5, 0x10, 0xDC, 0x04, 0x00, 0x00, 0
 float db1 = printTemperature(insideThermometer);
 float db2 = printTemperature(outsideThermometer);
 float avrDB = (db1 + db2) /2 ;
-float alt = 6; // static altitutede
+float alt = 12; // static altitutede
 
 
 
