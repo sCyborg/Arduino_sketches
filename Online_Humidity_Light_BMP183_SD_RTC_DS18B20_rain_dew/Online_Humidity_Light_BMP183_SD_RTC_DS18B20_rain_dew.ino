@@ -29,6 +29,8 @@ Adafruit_BMP183 bmp = Adafruit_BMP183(BMP183_CLK, BMP183_SDO, BMP183_SDI, BMP183
 const int chipSelect = 41;
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
+RTC_DS1307 RTC;
+
 
 #if STATIC
 // ethernet interface ip address
@@ -58,28 +60,31 @@ int Timer= 0;
 int p=0;                    // Pressure BMP183
 int bt=0;                   // Temperature BMP183  
 
+
 DeviceAddress insideThermometer = { 0x28, 0xFA, 0xFE, 0xDB, 0x04, 0x00, 0x00, 0xAC  };
 DeviceAddress outsideThermometer = { 0x28, 0xE5, 0x10, 0xDC, 0x04, 0x00, 0x00, 0x2D  };
 float db1 = printTemperature(insideThermometer);
 float db2 = printTemperature(outsideThermometer);
 float avrDB = (db1 + db2) /2 ;
-
+DateTime now = RTC.now();
 
 void setup () {
   Serial.begin(57600);
   bmp.begin();
   dht.begin();
   sensors.begin();
+  Wire.begin();
+  RTC.begin();
+  //set RTC time
+  RTC.adjust(DateTime(__DATE__, __TIME__));
   //set sensor resolution
- sensors.setResolution(insideThermometer, 10);
- sensors.setResolution(outsideThermometer, 10);
+  sensors.setResolution(insideThermometer, 10);
+  sensors.setResolution(outsideThermometer, 10);
   // see if the card is present and can be initialized:
   if (!SD.begin(38, 39, 40, 41)) 
-  Serial.println("card initialized.");
-    if (ether.begin(sizeof Ethernet::buffer, mymac,53) == 0)
+      if (ether.begin(sizeof Ethernet::buffer, mymac,53) == 0)
     Serial.println(F("Failed to access Ethernet controller"));
-    Serial.println("BMP183 Pressure Sensor Test"); Serial.println("");
-#if STATIC
+    #if STATIC
   ether.staticSetup(myip, gwip);
 #else
   if (!ether.dhcpSetup())
@@ -100,14 +105,8 @@ static void ReadDHT11()
 float printTemperature(DeviceAddress deviceAddress)
 {
  float tempC = sensors.getTempC(deviceAddress);
- if (tempC == -127.00) {
-   Serial.print("Error, sensor does not reply");
- } else {
-   Serial.print("C: ");
-   Serial.print(tempC);
- return(tempC);
-  }
 }
+
 //  Here we build a web page and pass the t and h values into it
 static word homePage() {
   //ReadBMP183();
@@ -119,8 +118,10 @@ static word homePage() {
  byte m = (t / 60) % 60;
  byte s = t % 60;  
  byte d = millis() / 86400000;
+ 
   sensors.requestTemperatures();
   sensors.getTempCByIndex(0);
+  DateTime now = RTC.now();
   // Calculate Dewpoint (dewP)
   float H = (log10(hd)-2.0)/0.4343+(17.62*db1)/(243.12+db1);
   float dewP = 243.12*H/(17.62-H);
@@ -133,10 +134,26 @@ static word homePage() {
     "Pragma: no-cache\r\n"
     "\r\n"
     "<meta http-equiv='refresh' content='10'/>"
-    "<html><head><title>Real-time Weather-Station</title></head>" 
-    "<body align= 'center' bgcolor='#FFF8DC'>"
-    "<h1>Temp: $T c<br>Hum: $D %<br>Light: $D<br>Rain: $D<br>DewP: $T c</h1><h2>Upt! $D Days $D$D H $D$D M $D$D S.</h2><h3>For rain sensor the folowing counts: <br> High (680) = Dry<br> Low = Wet.</h3>"
-    "</body></html>"
+    "<html><head>"
+    "<title>Real-time Weather-Station</title></head>" 
+    "<body align= 'center'>" 
+    "<bgcolor='#FFF8DC'>"
+    "<h1>"
+    "Temperature: $T c"
+    "<br>Humidity: $D %"
+    "<br>Light: $D"
+    "<br>Rain: $D"
+    "<br>DewPoint: $T c"
+    "</h1>"
+    "<h2>"
+    "Uptime! $D Days $D$D H $D$D M $D$D S."
+    "</h2>"
+    "<h3>"
+    "For rain sensor the folowing counts:" 
+    "<br> High (680) = Dry<br> Low = Wet."
+    "</h3>"
+    "</body>"
+    "</html>"
     ), avrDB, hd, sensorValue, sensorRValue, dewP, d/10, h/10, h%10, m/10, m%10, s/10, s%10);
   return bfill.position();
 }
