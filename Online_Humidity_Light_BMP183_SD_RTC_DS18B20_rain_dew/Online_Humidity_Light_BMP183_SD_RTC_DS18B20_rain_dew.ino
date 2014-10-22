@@ -68,6 +68,7 @@ float db2 = printTemperature(outsideThermometer);
 float avrDB = (db1 + db2) /2 ;
 DateTime now = RTC.now();
 
+
 void setup () {
   Serial.begin(57600);
   bmp.begin();
@@ -125,6 +126,10 @@ static word homePage() {
   // Calculate Dewpoint (dewP)
   float H = (log10(hd)-2.0)/0.4343+(17.62*db1)/(243.12+db1);
   float dewP = 243.12*H/(17.62-H);
+  //calculate humidex
+  float calculate_humidex(float avrDB,int hd);
+  float Vp = (6.112 * pow(10,(7.5 * avrDB/(237.7 + avrDB))) * hd/100); //vapor pressure
+  float humidex = avrDB + 0.55555555 * (Vp - 10.0); //humidex
   word sensorValue = analogRead(lightPin);
   word sensorRValue = analogRead(sensorRReading);
   bfill = ether.tcpOffset();
@@ -136,25 +141,21 @@ static word homePage() {
     "<meta http-equiv='refresh' content='10'/>"
     "<html><head>"
     "<title>Real-time Weather-Station</title></head>" 
-    "<body align= 'center'>" 
-    "<bgcolor='#FFF8DC'>"
-    "<h1>"
-    "Temperature: $T c"
+    "<body align= 'center', bgcolor='#FFFF99'>"
+    "<h1>Weather Station 0.1.3</h1>"
+    "<hr>"
+    "Temperature: $T C"
     "<br>Humidity: $D %"
     "<br>Light: $D"
     "<br>Rain: $D"
-    "<br>DewPoint: $T c"
-    "</h1>"
-    "<h2>"
-    "Uptime! $D Days $D$D H $D$D M $D$D S."
-    "</h2>"
-    "<h3>"
+    "<br>DewPoint: $T C"
+    "<br>Humidex: $T"
+    "<hr>"
     "For rain sensor the folowing counts:" 
     "<br> High (680) = Dry<br> Low = Wet."
-    "</h3>"
     "</body>"
     "</html>"
-    ), avrDB, hd, sensorValue, sensorRValue, dewP, d/10, h/10, h%10, m/10, m%10, s/10, s%10);
+    ), avrDB, hd, sensorValue, sensorRValue, dewP, humidex);
   return bfill.position();
 }
 void loop () {
