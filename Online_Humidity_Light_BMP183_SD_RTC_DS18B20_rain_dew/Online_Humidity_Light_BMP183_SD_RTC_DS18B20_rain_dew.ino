@@ -66,7 +66,8 @@ DeviceAddress outsideThermometer = { 0x28, 0xE5, 0x10, 0xDC, 0x04, 0x00, 0x00, 0
 float db1 = printTemperature(insideThermometer);
 float db2 = printTemperature(outsideThermometer);
 float avrDB = (db1 + db2) /2 ;
-DateTime now = RTC.now();
+float alt = 6; // static altitutede
+
 
 
 void setup () {
@@ -123,13 +124,15 @@ static word homePage() {
   sensors.requestTemperatures();
   sensors.getTempCByIndex(0);
   DateTime now = RTC.now();
-  // Calculate Dewpoint (dewP)
+    // Calculate Dewpoint (dewP)
   float H = (log10(hd)-2.0)/0.4343+(17.62*db1)/(243.12+db1);
   float dewP = 243.12*H/(17.62-H);
   //calculate humidex
   float calculate_humidex(float avrDB,int hd);
   float Vp = (6.112 * pow(10,(7.5 * avrDB/(237.7 + avrDB))) * hd/100); //vapor pressure
   float humidex = avrDB + 0.55555555 * (Vp - 10.0); //humidex
+  // Calculate cloud base height.
+  float CloudBase =       ((avrDB - dewP) / 2.2 * 1000 + alt);
   word sensorValue = analogRead(lightPin);
   word sensorRValue = analogRead(sensorRReading);
   bfill = ether.tcpOffset();
@@ -150,12 +153,11 @@ static word homePage() {
     "<br>Rain: $D"
     "<br>DewPoint: $T C"
     "<br>Humidex: $T"
+    "<br>Cumulus Height: $T M"
     "<hr>"
-    "For rain sensor the folowing counts:" 
-    "<br> High (680) = Dry<br> Low = Wet."
     "</body>"
     "</html>"
-    ), avrDB, hd, sensorValue, sensorRValue, dewP, humidex);
+    ), avrDB, hd, sensorValue, sensorRValue, dewP, humidex, CloudBase);
   return bfill.position();
 }
 void loop () {
