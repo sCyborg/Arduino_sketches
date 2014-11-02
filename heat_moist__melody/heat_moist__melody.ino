@@ -43,7 +43,7 @@ sensors.begin();
   
   Serial.println(" ");
   Serial.print("Device insideThermometer ");
-  Serial.println("Old alarm temps...");
+  Serial.println("alarm Temp and Adress...");
   printAlarmInfo(insideThermometer);
   Serial.println(" ");
   
@@ -65,17 +65,13 @@ sensors.begin();
   sensors.setAlarmHandler(&newAlarmHandler);
 
   Serial.print("Moisture 1 (Paper Towels): ");
-  Serial.print(analogRead(0));
-  Serial.println();
+  Serial.println(analogRead(0));
   Serial.print("Moisture 2 (Santaka): ");
-  Serial.print(analogRead(1));
-  Serial.println();
+  Serial.println(analogRead(1));
   Serial.print("Moisture 3 (Bhut Jolokia): ");
-  Serial.print(analogRead(2));
-  Serial.println();
+  Serial.println(analogRead(2));
   Serial.print("Moisture 4 (Carolina Reaper): ");
-  Serial.print(analogRead(3));
-  Serial.println();
+  Serial.println(analogRead(3));
   Serial.println(" ");
   melodyPlay();
 }
@@ -170,22 +166,22 @@ void Red(){
   tone(3, 600 , 500);
   if (m1 < 120){
   Serial.print("Moisture 1 below average check (paper Towels): ");
-  Serial.print(analogRead(0));
+  Serial.println(analogRead(0));
   Serial.println();
   }
   if (m2 < 250){
   Serial.print("Moisture 2 below average check (Santaka): ");
-  Serial.print(analogRead(1));
+  Serial.println(analogRead(1));
   Serial.println();
   }
   if (m3 < 250){
   Serial.print("Moisture 3 below average check (Bhut Jolokia): ");
-  Serial.print(analogRead(2));
+  Serial.println(analogRead(2));
   Serial.println();
   }
   if (m4 < 250){
   Serial.print("Moisture 4 below average check (Carolina Reaper: ");
-  Serial.print(analogRead(3));
+  Serial.println(analogRead(3));
   Serial.println();
   }
 }
@@ -208,22 +204,22 @@ void Green(){
   digitalWrite(ledR, LOW); 
   if (m1 < 175){
   Serial.print("Moisture 1 below average check (paper Towels): ");
-  Serial.print(analogRead(0));
+  Serial.println(analogRead(0));
   Serial.println();
   }
   if (m2 < 325){
   Serial.print("Moisture 2 below average check (Santaka): ");
-  Serial.print(analogRead(1));
+  Serial.println(analogRead(1));
   Serial.println();
   }
   if (m3 < 325){
   Serial.print("Moisture 3 below average check (Bhut Jolokia): ");
-  Serial.print(analogRead(2));
+  Serial.println(analogRead(2));
   Serial.println();
   }
   if (m4 < 325){
   Serial.print("Moisture 4 below average check (Carolina Reaper: ");
-  Serial.print(analogRead(3));
+  Serial.println(analogRead(3));
   Serial.println();
   }
 }
@@ -245,13 +241,13 @@ void Alarm()  {
     }
   }
 }
+
 void loop(){
 m1= analogRead(0);  // Paper Towels
 m2= analogRead(1);  // Santaka
 m3= analogRead(2);  // BhutJolokia
 m4= analogRead(3);  // C.Reaper
 sensors.requestTemperatures();
-  
   Alarm();
   float average= (m2 + m3 + m4) /3;
   //float average = (m1 + m2 + m3 + m4) /4;
