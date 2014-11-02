@@ -245,3 +245,15 @@ mcp23016_base_ouput/mcp23016_base_ouput.ino
 mcp23016_16_lights_sketch/mcp23016_16_lights_sketch.ino
 Online_Humidity_Light_BMP183_SD/Online_Humidity_Light_BMP183_SD.ino
 Online_Humidity_Light_BMP183_SD_RTC/Online_Humidity_Light_BMP183_SD_RTC.ino
+heat_moist/heat_moist.ino
+heat_moist__/heat_moist__.ino
+moistur1/moistur1.ino
+moisture1/moisture1.ino
+moisture2/moisture2.ino
+MoistureSample/MoistureSample.ino
+OnewireAddress_wire/OnewireAddress_wire.ino
+OnewireAddress_wire/one_wire_address_finder.pde
+shroomheater/shroomheater.ino
+shroomheater/shroomheater.ino
+weatherStation1/weatherStation1.ino
+shroomheater/shroomheater.ino
