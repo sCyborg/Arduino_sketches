@@ -19,11 +19,9 @@ DallasTemperature sensors(&oneWire);
 DeviceAddress insideThermometer;
 int Relay = 2;
 
-// notes in the melody:
 int melody[]= {
   NOTE_C4, NOTE_G3,NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4};
 
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
 int noteDurations[] = {
   4, 8, 8, 4,4,4,4,4 };
 
@@ -37,12 +35,10 @@ void setup(){
 
 sensors.begin();
 
-// locate devices on the bus
   Serial.print("..Found ");
   Serial.print(sensors.getDeviceCount(), DEC);
   Serial.println(" devices.");
 
-  // search for devices on the bus and assign based on an index
   if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0"); 
   
   Serial.println(" ");
@@ -51,15 +47,12 @@ sensors.begin();
   printAlarmInfo(insideThermometer);
   Serial.println(" ");
   
-  // set the resolution to 9 bit (Each Dallas/Maxim device is capable of several different resolutions)
   sensors.setResolution(insideThermometer, 10);
  
   Serial.print("Device insideThermometer Resolution ");
   Serial.print(sensors.getResolution(insideThermometer), DEC); 
   Serial.println();
 
-  // set alarm ranges 30c (27c) to 32c (29c)
-  // Growing fase use 27c (24c) to 31c (28c)
   Serial.println(" ");
   Serial.println("Setting new alarm temps...");
   sensors.setHighAlarmTemp(insideThermometer, 32);
@@ -69,7 +62,6 @@ sensors.begin();
   Serial.println();
   Serial.println(" ");
 
-  // attach alarm handler
   sensors.setAlarmHandler(&newAlarmHandler);
 
   Serial.print("Moisture 1 (Paper Towels): ");
@@ -101,12 +93,10 @@ void melodyPlay(){
     // the note's duration + 30% seems to work well:
     int pauseBetweenNotes = noteDuration * 1.30;
     delay(pauseBetweenNotes);
-    // stop the tone playing:
     noTone(3);
   }
 }
 
-// function that will be called when an alarm condition exists during DallasTemperatures::processAlarms();
 void newAlarmHandler(uint8_t* deviceAddress)
 {
   Serial.println("Alarm Handler Start"); 
@@ -239,29 +229,19 @@ void Green(){
 }
 
 void Alarm()  { 
-  // ask the devices to measure the temperature
-  sensors.requestTemperatures();
-  // if an alarm condition exists as a result of the most recent 
-  // requestTemperatures() request, it exists until the next time 
-  // requestTemperatures() is called AND there isn't an alarm condition
-  // on the device
-  if (sensors.hasAlarm())
-    // Sensor 1 Relay
-    if (sensors.hasAlarm(insideThermometer)) {
-    float tempC = sensors.getTempC(insideThermometer);
-    if (tempC != DEVICE_DISCONNECTED) {
-      // HIGH alarm  
-      if (tempC >= sensors.getHighAlarmTemp(insideThermometer)) {
-          digitalWrite(Relay, HIGH); 
-          Serial.println("Temperature is to High (switching) heating element (is) off.");
-                          // HIGH alarm
-       }   
-       // LOW alarm
-        if (tempC <= sensors.getLowAlarmTemp(insideThermometer)) {
-          digitalWrite(Relay, LOW);
-          Serial.println("Temperature is to Low (switching) heating element (is) on.");
-                // LOW alarm
-        }
+   sensors.requestTemperatures();
+     if (sensors.hasAlarm())
+     if (sensors.hasAlarm(insideThermometer)) {
+   float tempC = sensors.getTempC(insideThermometer);
+     if (tempC != DEVICE_DISCONNECTED) {
+     if (tempC >= sensors.getHighAlarmTemp(insideThermometer)) {
+      digitalWrite(Relay, HIGH); 
+      Serial.println("Temperature is to High (switching) heating element (is) off.");
+     }   
+     if (tempC <= sensors.getLowAlarmTemp(insideThermometer)) {
+       digitalWrite(Relay, LOW);
+       Serial.println("Temperature is to Low (switching) heating element (is) on.");          
+     }
     }
   }
 }
