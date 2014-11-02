@@ -93,7 +93,7 @@ void setup(void)
   Serial.println();
 
   // set the resolution to 9 bit (Each Dallas/Maxim device is capable of several different resolutions)
-  sensors.setResolution(insideThermometer, 12);
+  sensors.setResolution(insideThermometer, 10);
  
   Serial.print("Device insideThermometer Resolution ");
   Serial.print(sensors.getResolution(insideThermometer), DEC); 
@@ -102,8 +102,8 @@ void setup(void)
   // set alarm ranges 30c (27c) to 32c (29c)
   // Growing fase use 27c (24c) to 31c (28c)
   Serial.println("Setting alarm temps...");
-  sensors.setHighAlarmTemp(insideThermometer, 32);
-  sensors.setLowAlarmTemp(insideThermometer, 30);
+  sensors.setHighAlarmTemp(insideThermometer, 27);
+  sensors.setLowAlarmTemp(insideThermometer, 23);
 
   Serial.print("New insideThermometer ");
   printAlarmInfo(insideThermometer);
@@ -112,8 +112,6 @@ void setup(void)
   // attach alarm handler
   sensors.setAlarmHandler(&newAlarmHandler);
    
-  // Explain Temperature reading differences. 
-  Serial.println("~28c on control device is ~25c | 33c on control is ~30c");
 }
 
 void loop(void)
@@ -121,8 +119,7 @@ void loop(void)
   // ask the devices to measure the temperature
   sensors.requestTemperatures();
   printCurrentTemp(insideThermometer);
-  Serial.print(" substract ~3.06c to get the realtemp.");
-  Serial.println();
+   Serial.println();
   delay(30000);
   // if an alarm condition exists as a result of the most recent 
   // requestTemperatures() request, it exists until the next time 
