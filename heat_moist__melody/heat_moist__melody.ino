@@ -232,7 +232,7 @@ void Alarm()  {
      if (tempC != DEVICE_DISCONNECTED) {
      if (tempC >= sensors.getHighAlarmTemp(insideThermometer)) {
       digitalWrite(Relay, HIGH); 
-      Serial.println("Temperature is to High (switching) heating element (is) off.");
+     // Serial.println("Temperature is to High (switching) heating element (is) off.");
      }   
      if (tempC <= sensors.getLowAlarmTemp(insideThermometer)) {
        digitalWrite(Relay, LOW);
@@ -259,7 +259,7 @@ sensors.requestTemperatures();
   {
   Green();
   }
-delay(60000);
+ delay(60000);
 }
 
   
