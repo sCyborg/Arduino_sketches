@@ -15,7 +15,8 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 DeviceAddress insideThermometer;
 int Relay = 2;
-
+unsigned long time;
+unsigned long time2;
 int melody[]= {
   NOTE_C4, NOTE_G3,NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4};
 int noteDurations[] = {
@@ -27,39 +28,12 @@ void setup(){
     pinMode(Buzz,OUTPUT);
     pinMode(Relay, OUTPUT);
   Serial.begin(57600);
-  Serial.println(" Soil Moist check and Thermometer with Relay. ");
   sensors.begin();
-  Serial.print("..Found ");
-  Serial.print(sensors.getDeviceCount(), DEC);
-  Serial.println(" devices.");
   if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0"); 
-  Serial.println(" ");
-  Serial.print("Device insideThermometer ");
-  Serial.println("alarm Temp and Adress...");
-  printAlarmInfo(insideThermometer);
-  Serial.println(" ");
   sensors.setResolution(insideThermometer, 10);
-  Serial.print("Device insideThermometer Resolution ");
-  Serial.print(sensors.getResolution(insideThermometer), DEC); 
-  Serial.println();
-  Serial.println(" ");
-  Serial.println("Setting new alarm temps...");
   sensors.setHighAlarmTemp(insideThermometer, 32);
   sensors.setLowAlarmTemp(insideThermometer, 30);
-  Serial.print("New insideThermometer ");
-  printAlarmInfo(insideThermometer);
-  Serial.println();
-  Serial.println(" ");
   sensors.setAlarmHandler(&newAlarmHandler);
-  Serial.print("Moisture 1 (Paper Towels): ");
-  Serial.println(analogRead(0));
-  Serial.print("Moisture 2 (Santaka): ");
-  Serial.println(analogRead(1));
-  Serial.print("Moisture 3 (Bhut Jolokia): ");
-  Serial.println(analogRead(2));
-  Serial.print("Moisture 4 (Carolina Reaper): ");
-  Serial.println(analogRead(3));
-  Serial.println(" ");
   melodyPlay();
 }
 void melodyPlay(){
@@ -91,9 +65,7 @@ void newAlarmHandler(uint8_t* deviceAddress)
 
 void printCurrentTemp(DeviceAddress deviceAddress)
 {
-  printAddress(deviceAddress);
   printTemp(deviceAddress);
-  Serial.println();
 }
 
 void printAddress(DeviceAddress deviceAddress)
@@ -112,8 +84,7 @@ void printTemp(DeviceAddress deviceAddress)
   float tempC = sensors.getTempC(deviceAddress);
   if (tempC != DEVICE_DISCONNECTED)
   {
-    Serial.print("Current Temp C: ");
-    Serial.print(tempC);
+        Serial.print(tempC);
   }
   else Serial.print("DEVICE DISCONNECTED");
   Serial.print(" ");
@@ -124,14 +95,7 @@ void printAlarmInfo(DeviceAddress deviceAddress)
   char temp;
   printAddress(deviceAddress);
   temp = sensors.getHighAlarmTemp(deviceAddress);
-  Serial.print("High Alarm: ");
-  Serial.print(temp, DEC);
-  Serial.print("C");
-  Serial.print(" Low Alarm: ");
   temp = sensors.getLowAlarmTemp(deviceAddress);
-  Serial.print(temp, DEC);
-  Serial.print("C");
-  Serial.print(" ");
 }
  
 void Red(){  
@@ -143,34 +107,9 @@ void Red(){
   m4= analogRead(3);
   //float average= (m1 + m2 + m3 + m4) /4;
   float average= (m2 + m3 + m4) /3;
-  Serial.print("Warning below treshold moisture Average = ");
-  Serial.print(average);
-  Serial.println();
-  printCurrentTemp(insideThermometer);
-  Serial.println();
   digitalWrite(ledR, HIGH);
   digitalWrite(ledG, LOW);
   tone(3, 600 , 500);
-  if (m1 < 120){
-  Serial.print("Moisture 1 below average check (paper Towels): ");
-  Serial.println(analogRead(0));
-  Serial.println();
-  }
-  if (m2 < 250){
-  Serial.print("Moisture 2 below average check (Santaka): ");
-  Serial.println(analogRead(1));
-  Serial.println();
-  }
-  if (m3 < 250){
-  Serial.print("Moisture 3 below average check (Bhut Jolokia): ");
-  Serial.println(analogRead(2));
-  Serial.println();
-  }
-  if (m4 < 250){
-  Serial.print("Moisture 4 below average check (Carolina Reaper: ");
-  Serial.println(analogRead(3));
-  Serial.println();
-  }
 }
  
 void Green(){
@@ -182,33 +121,8 @@ void Green(){
   m4= analogRead(3);
   //float average= (m1 + m2 + m3 + m4) /4;
   float average= (m2 + m3 + m4) /3;
-  Serial.print("Moisture Average: ");
-  Serial.print(average);
-  Serial.println();
-  printCurrentTemp(insideThermometer);
-  Serial.println();
   digitalWrite(ledG, HIGH);
   digitalWrite(ledR, LOW); 
-  if (m1 < 175){
-  Serial.print("Moisture 1 below average check (paper Towels): ");
-  Serial.println(analogRead(0));
-  Serial.println();
-  }
-  if (m2 < 325){
-  Serial.print("Moisture 2 below average check (Santaka): ");
-  Serial.println(analogRead(1));
-  Serial.println();
-  }
-  if (m3 < 325){
-  Serial.print("Moisture 3 below average check (Bhut Jolokia): ");
-  Serial.println(analogRead(2));
-  Serial.println();
-  }
-  if (m4 < 325){
-  Serial.print("Moisture 4 below average check (Carolina Reaper: ");
-  Serial.println(analogRead(3));
-  Serial.println();
-  }
 }
 
 void Alarm()  { 
@@ -219,17 +133,17 @@ void Alarm()  {
      if (tempC != DEVICE_DISCONNECTED) {
      if (tempC >= sensors.getHighAlarmTemp(insideThermometer)) {
       digitalWrite(Relay, HIGH); 
-      Serial.println("Temperature is to High (switching) heating element (is) off.");
-     }   
+      }   
      if (tempC <= sensors.getLowAlarmTemp(insideThermometer)) {
-       digitalWrite(Relay, LOW);
-       Serial.println("Temperature is to Low (switching) heating element (is) on.");          
+       digitalWrite(Relay, LOW);      
      }
     }
   }
 }
 
 void loop(){
+time = millis();
+time2 = time /3600000;
 m1= analogRead(0);  // Paper Towels
 m2= analogRead(1);  // Santaka
 m3= analogRead(2);  // BhutJolokia
@@ -246,7 +160,18 @@ sensors.requestTemperatures();
   {
   Green();
   }
- delay(60000);
+  Serial.print(time2);
+  Serial.print(",");   
+  printCurrentTemp(insideThermometer);
+  Serial.print(",");
+  Serial.print(analogRead(3));
+  Serial.print(",");
+  Serial.print(analogRead(1));
+  Serial.print(",");
+  Serial.print(analogRead(2));
+  Serial.print(",");
+  Serial.println(analogRead(0));
+ delay(10000);
 }
 
   
